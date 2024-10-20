@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include "stringManip.h"
 
 char *str_trim(char *str){
@@ -19,3 +20,14 @@ char *str_trim(char *str){
     *(end + 1) = 0;
     return str;
 } 
+
+char *str_cut(char *str, int start, int end) {
+    if (start >= end || start < 0) return NULL;
+
+    char *string = malloc(end - start + 1); //allocate memory for the substring
+    if (string) {
+        strncpy(string, str + start, end - start); 
+        string[end - start] = '\0'; //null terminate the substring
+    }
+    return string;
+}
