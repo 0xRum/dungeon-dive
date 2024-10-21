@@ -10,4 +10,5 @@ struct ROOM{
     ROOM *north, *east, *south, *west;
 };
 
+ROOM *readRoomFile(const char *filename, int *roomCount);
 #endif
