@@ -24,5 +24,12 @@ int main(int argc, char *argv[]){
     
     printf("Enter dungeon size: ");
     int dungeonSize;
-    scanf("%d", &dungeonSize);
+    char input[10];
+    fgets(input, sizeof(input), stdin);
+    scanf(input, "%d", &dungeonSize);
+
+    //TODO: add dungeoncreate and print.
+    //free rooms
+    free(rooms);
+    return 0;
 }
