@@ -26,7 +26,6 @@ int main(int argc, char *argv[]){
     int dungeonSize;
     char input[10];
     fgets(input, sizeof(input), stdin);
-    scanf(input, "%d", &dungeonSize);
 
     //TODO: add dungeoncreate and print.
     //free rooms
