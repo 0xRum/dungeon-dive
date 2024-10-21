@@ -16,9 +16,16 @@ ROOM *roomCreate(ROOM *room){
 
     ROOM *copy = malloc(sizeof(ROOM));
     if (!copy) return NULL;
+    *copy = *room;
 }
 
 ROOM *readroomFile(const char *filename, int *roomCount){
     FILE *fp = fopen(filename, "r");
-    if (!fp) return NULL;
+    if (!fp) {
+        printf("Error opening file %s\n", filename);
+        return NULL;
+    }
+    int roomba = 2;
+    int nextRooms = 0;
+    ROOM *rooms = malloc(sizeof(ROOM) * roomba);
 }
