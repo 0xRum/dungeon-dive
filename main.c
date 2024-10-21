@@ -4,3 +4,12 @@
 //deleteDungeon:takes pointer to start of dungeon and frees memory allocated for entire dungeon
 //main: creates room array from the file, asks user for size of dungeon to be created, creates dungeon that size, prints dungeon, deletes dungeon.
 
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]){
+    if (argc != 2) {
+        printf("Please use with: %s <nameofroomlist.txt>\n", argv[0]);
+        return 1;
+    }
+}
