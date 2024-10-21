@@ -11,4 +11,5 @@ struct ROOM{
 };
 
 ROOM *readRoomFile(const char *filename, int *roomCount);
+ROOM *roomCreate(ROOM *room);
 #endif
