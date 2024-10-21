@@ -6,10 +6,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "roomManip.h"
+#include "stringManip.h"
+
 
 int main(int argc, char *argv[]){
     if (argc != 2) {
         printf("Please use with: %s <nameofroomlist.txt>\n", argv[0]);
         return 1;
     }
+    int roomCount;
+    ROOM *rooms = readRoomFile(argv[1], &roomCount);
+    if (!rooms) {
+        printf("Failed to load rooms.\n");
+        return 1;
+    }
+    
+    printf("Enter dungeon size: ");
+    int dungeonSize;
+    scanf("%d", &dungeonSize);
 }
