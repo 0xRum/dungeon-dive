@@ -25,32 +25,33 @@ ROOM *readRoomFile(const char *filename, int *roomCount){
         return NULL;
     }
     
-    int roomba = 2; //starts with 2 rooms
-    int nextRooms = 0; //next rooms begins at 0
-    ROOM *rooms = malloc(sizeof(ROOM) * roomba);
-    char line[2048];
+    int roomCapacity = 2; //starts with 2 rooms
+    int roomIndex = 0; //next rooms begins at 0
+    ROOM *rooms = malloc(sizeof(ROOM) * roomCapacity);
 
+    char line[2048];
     while (fgets(line, sizeof(line), fp)) {
         if (strncmp(line, "Room Name:", 10) == 0) {
-            if (roomba >= nextRooms) {
-                nextRooms *= 2;  // double the room
-                ROOM *temp = realloc(rooms, sizeof(ROOM) * nextRooms);
+            if (roomIndex >= roomCapacity) {
+                roomCapacity *= 2;  // double the room
+                ROOM *temp = realloc(rooms, sizeof(ROOM) * roomCapacity);
                 if (!temp) {
                     free(rooms);  // free original memory
+                    fclose(fp);
                     return NULL;
                 }
                 rooms = temp;
 
             }
-            strcpy(rooms[roomba].name, str_trim(line + 10));
+            strcpy(rooms[roomIndex].name, str_trim(line + 10));
         } else if (strncmp(line, "Room Code:", 10) == 0) {
-            strcpy(rooms[roomba].code, str_trim(line + 10));
+            strcpy(rooms[roomIndex].code, str_trim(line + 10));
         } else if (strncmp(line, "Room Description:", 17) == 0) {
-            strcpy(rooms[roomba].description, str_trim(line + 17));
-            roomba++; // move to the next room after completing one entry
+            strcpy(rooms[roomIndex].description, str_trim(line + 17));
+            roomIndex++; // move to the next room after completing one entry
         }
     }
     fclose(fp);
-    *roomCount = nextRooms;
+    *roomCount = roomIndex;
     return rooms;
 }
