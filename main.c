@@ -9,6 +9,13 @@
 #include "roomManip.h"
 #include "stringManip.h"
 
+//TODO:createDungeon: make pointers to the start room and pointers to the current room
+//add randomizier
+//create new copy of room
+//printDungeon function: should print current room for west to east
+//deleteDungeon function: should delete all rooms and free memory
+// 
+
 
 int main(int argc, char *argv[]){
     if (argc != 2) {
@@ -23,11 +30,17 @@ int main(int argc, char *argv[]){
     }
     
     printf("Enter dungeon size: ");
-    int dungeonSize;
     char input[10];
-    fgets(input, sizeof(input), stdin);
+    if(fgets(input, sizeof(input), stdin) == NULL) {
+        printf("Not today pal.\n");
+        free(rooms);
+        return 1;
+    };
 
-    //TODO: add dungeoncreate and print.
+    //TODO:createdungeon based on input from user. printdungeon. clean up dungeon(delete)
+    //handle errors
+    //free up memory
+
     //free rooms
     free(rooms);
     return 0;
