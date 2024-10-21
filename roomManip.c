@@ -25,8 +25,8 @@ ROOM *readRoomFile(const char *filename, int *roomCount){
         return NULL;
     }
     
-    int roomCapacity = 2; //starts with 2 rooms
-    int roomIndex = 0; //next rooms begins at 0
+    int roomCapacity = 2; 
+    int roomIndex = 0; 
     ROOM *rooms = malloc(sizeof(ROOM) * roomCapacity);
 
     char line[2048];
