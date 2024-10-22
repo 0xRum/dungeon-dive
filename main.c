@@ -19,6 +19,15 @@
 ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
     if (dungeonSize <= 0 || roomCount <= 0)
     return NULL;
+
+    srand(time(0));
+
+    ROOM *head = NULL; //ptr to start of room
+    ROOM *current = NULL; //ptr to current room
+}
+
+void printDungeon(ROOM *dungeon) {
+    ROOM *current = dungeon;
 }
 
 int main(int argc, char *argv[]){
@@ -41,10 +50,14 @@ int main(int argc, char *argv[]){
         return 1;
     };
 
-    //TODO:createdungeon based on input from user. printdungeon. clean up dungeon(delete)
+    // clean up dungeon(delete)
+    int dungeonSize = atoi(input);
+    ROOM *dungeon = createDungeon(rooms,roomCount, dungeonSize);
     //handle errors
     //free up memory
-
+    //print dungeon
+    printDungeon(dungeon);
+    //delete dungeon
     //free rooms
     free(rooms);
     return 0;
