@@ -10,9 +10,6 @@
 #include "roomManip.h"
 #include "stringManip.h"
 
-//TODO:
-//deleteDungeon function: should delete all rooms and free memory
-// 
 ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
     if (dungeonSize <= 0 || roomCount <= 0)
     return NULL;
