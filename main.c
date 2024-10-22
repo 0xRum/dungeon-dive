@@ -11,8 +11,6 @@
 #include "stringManip.h"
 
 //TODO:
-//create new copy of room for east-best bi-directional travel.
-//printDungeon function: should print current room for west to east
 //deleteDungeon function: should delete all rooms and free memory
 // 
 ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
@@ -29,8 +27,16 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
         int randomRoomIndex = rand() % roomCount;
         ROOM *newRoom = roomCreate(&rooms[randomRoomIndex]);//creates new room copy
 
-        
+
+        if (head == NULL){
+            head = newRoom; //sets first newroom as head
+        } else {
+            current->east = newRoom;
+            newRoom->west = current;
+        }
+        current = newRoom; //move to newroom in the dungeon
     }
+    return head; //return to start
 }
 
 void printDungeon(ROOM *dungeon) {
