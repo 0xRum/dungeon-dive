@@ -43,6 +43,10 @@ void printDungeon(ROOM *dungeon) {
     ROOM *current = dungeon;
 }
 
+void deleteDungeon(ROOM *dungeon) {
+    // TODO: implement deleteDungeon
+}
+
 int main(int argc, char *argv[]){
     if (argc != 2) {
         printf("Please use with: %s <nameofroomlist.txt>\n", argv[0]);
