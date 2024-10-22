@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "roomManip.h"
 #include "stringManip.h"
 
@@ -15,7 +16,10 @@
 //printDungeon function: should print current room for west to east
 //deleteDungeon function: should delete all rooms and free memory
 // 
-
+ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
+    if (dungeonSize <= 0 || roomCount <= 0)
+    return NULL;
+}
 
 int main(int argc, char *argv[]){
     if (argc != 2) {
