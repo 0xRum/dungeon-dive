@@ -24,6 +24,11 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
         int randomRoomIndex = rand() % roomCount;
         ROOM *newRoom = roomCreate(&rooms[randomRoomIndex]);//creates new room copy
 
+        //error handling
+        if (!newRoom) {
+            printf("Failed to create room.\n");
+            return NULL;
+        }
 
         if (head == NULL){
             head = newRoom; //sets first newroom as head
