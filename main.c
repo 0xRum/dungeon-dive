@@ -38,6 +38,10 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
 
 void printDungeon(ROOM *dungeon) {
     ROOM *current = dungeon;
+    while (current != NULL) {
+        printf("Code: %s, Name: %s\n", current->code, current->name);
+        current = current->east; //move to next room, east
+    }
 }
 
 void deleteDungeon(ROOM *dungeon) {
