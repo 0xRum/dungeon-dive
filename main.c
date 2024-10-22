@@ -73,14 +73,19 @@ int main(int argc, char *argv[]){
         return 1;
     };
 
-    // clean up dungeon(delete)
+    //convert input to integer and create dungeon
     int dungeonSize = atoi(input);
     ROOM *dungeon = createDungeon(rooms,roomCount, dungeonSize);
     //handle errors
-    //free up memory
+    if (!dungeon) {
+        printf("Failed to create dungeon.\n");
+        free(rooms);
+        return 1;
+    }
     //print dungeon
     printDungeon(dungeon);
     //delete dungeon
+    deleteDungeon(dungeon);
     //free rooms
     free(rooms);
     return 0;
