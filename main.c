@@ -44,7 +44,12 @@ void printDungeon(ROOM *dungeon) {
 }
 
 void deleteDungeon(ROOM *dungeon) {
-    // TODO: implement deleteDungeon
+    ROOM *current = dungeon;
+    while (current != NULL) {
+        ROOM *next = current->east; //store the next room
+        free(current); //free current
+        current = next; //move to the next room
+    }
 }
 
 int main(int argc, char *argv[]){
