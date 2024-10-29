@@ -1,3 +1,5 @@
+//header file for roomManip
+
 #ifndef ROOMMANIP_H
 #define ROOMMANIP_H
 

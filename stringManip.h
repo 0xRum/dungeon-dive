@@ -1,4 +1,4 @@
-//header
+//header file for stringManip
 
 #ifndef STRINGMANIP_H
 #define STRINGMANIP_H

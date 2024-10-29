@@ -1,10 +1,10 @@
 //contains any function related to "Rooms"
 //such as
 //room structure definition w/ following properties
-//Room name|Room code|Room Description|4 pointers to other rooms.
-
+//Room name|Room code|Room Description|4 pointers to other rooms. held in .h file
 //holds roomCreate
 //holds readRoomFile
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

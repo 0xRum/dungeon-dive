@@ -70,6 +70,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
     
+    //get dungeon size from user
     printf("Enter dungeon size: ");
     char input[10];
     if(fgets(input, sizeof(input), stdin) == NULL) {

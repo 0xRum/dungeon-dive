@@ -1,4 +1,3 @@
-all: main
 
 main: main.o roomManip.o stringManip.o
 	gcc -o main main.o roomManip.o stringManip.o
