@@ -24,6 +24,28 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
         return NULL;
     }
 
+    //create rooms and populate grid
+    for (int i = 0; i < dungeonSize; i++) {
+        for (int j = 0; j < dungeonSize; j++) {
+            int randomRoomIndex = rand() % roomCount;
+            grid[i * dungeonSize + j] = roomCreate(&rooms[randomRoomIndex]);
+            if (!grid[i * dungeonSize + j]) {
+                printf("Failed to create room.\n");
+                return NULL;
+            }
+        }
+    }
+
+    //time to link the rooms
+    for (int i = 0; i < dungeonSize; i++) {
+        for (int j = 0; j < dungeonSize; j++) {
+            ROOM *current = grid[i * dungeonSize + j];
+            if(i > 0) current->north = grid[(i - 1) * dungeonSize + j];
+            if(i < dungeonSize - 1) current->south = grid[(i + 1) * dungeonSize + j];
+            if(j > 0) current->west = grid[i * dungeonSize + (j - 1)];
+            if(j < dungeonSize - 1) current->east = grid[i * dungeonSize + (j + 1)];
+        }
+    }
 
     // ROOM *head = NULL; //ptr to start of room
     // ROOM *current = NULL; //ptr to current room
@@ -103,7 +125,7 @@ int main(int argc, char *argv[]){
     while(1){
         printf("\nCurrent Room Code: %s, Room Name: %s\n", currentRoom->code, currentRoom->name);
         printf("Description: %s\n", currentRoom->description);
-        printf("Exits: ");
+        printf("Rooms to the: ");
 
         if (currentRoom->north) printf("North ");
         if (currentRoom->east) printf("East ");
@@ -111,7 +133,7 @@ int main(int argc, char *argv[]){
         if (currentRoom->west) printf("West ");
         printf("\n");
 
-        printf("What would you like to do? <n/e/s/w> or quit :");
+        printf("What would you like to do? <n/e/s/w> or quit: ");
         if (fgets(input, sizeof(input), stdin) == NULL){
             printf("Not today pal.\n");
             continue;
@@ -123,7 +145,8 @@ int main(int argc, char *argv[]){
             case 'n':
             if (currentRoom->north) {
                 currentRoom = currentRoom->north;
-                printf("moving north my leige\n");
+                printf("\n");
+                printf("Moving north my leige...\n");
             } else {
                 printf("You can't go that way.\n");
             }
@@ -133,7 +156,8 @@ int main(int argc, char *argv[]){
             case 'e':
             if (currentRoom->east) {
                 currentRoom = currentRoom->east;
-                printf("moving east my leige\n");
+                printf("\n");
+                printf("Moving east my leige...\n");
             } else {
                 printf("You can't go that way.\n");
             }
@@ -143,7 +167,8 @@ int main(int argc, char *argv[]){
             case 's':
             if (currentRoom->south) {
                 currentRoom = currentRoom->south;
-                printf("moving south my leige\n");
+                printf("\n");
+                printf("Moving south my leige...\n");
             } else {
                 printf("You can't go that way.\n");
             }
@@ -153,7 +178,8 @@ int main(int argc, char *argv[]){
             case 'w':
             if (currentRoom->west) {
                 currentRoom = currentRoom->west;
-                printf("moving west my leige\n");
+                printf("\n");
+                printf("Moving west my leige...\n");
             } else {
                 printf("You can't go that way.\n");
             }
