@@ -47,29 +47,8 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
         }
     }
 
-    // ROOM *head = NULL; //ptr to start of room
-    // ROOM *current = NULL; //ptr to current room
-
-    // for(int i = 0; i < dungeonSize; i++) {
-    //     //select random room from room array
-    //     int randomRoomIndex = rand() % roomCount;
-    //     ROOM *newRoom = roomCreate(&rooms[randomRoomIndex]);//creates new room copy
-
-    //     //error handling
-    //     if (!newRoom) {
-    //         printf("Failed to create room.\n");
-    //         return NULL;
-    //     }
-
-    //     if (head == NULL){
-    //         head = newRoom; //sets first newroom as head
-    //     } else {
-    //         current->east = newRoom;
-    //         newRoom->west = current;
-    //     }
-    //     current = newRoom; //move to newroom in the dungeon
-    // }
     ROOM *head = grid[0];
+    free(grid);
     return head; //return to start
 }
 
@@ -133,7 +112,7 @@ int main(int argc, char *argv[]){
         if (currentRoom->west) printf("West ");
         printf("\n");
 
-        printf("What would you like to do? <n/e/s/w> or quit: ");
+        printf("Make a move <n/e/s/w> or quit: ");
         if (fgets(input, sizeof(input), stdin) == NULL){
             printf("Not today pal.\n");
             continue;
