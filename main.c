@@ -16,28 +16,37 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
 
     srand(time(0));
 
-    ROOM *head = NULL; //ptr to start of room
-    ROOM *current = NULL; //ptr to current room
-
-    for(int i = 0; i < dungeonSize; i++) {
-        //select random room from room array
-        int randomRoomIndex = rand() % roomCount;
-        ROOM *newRoom = roomCreate(&rooms[randomRoomIndex]);//creates new room copy
-
-        //error handling
-        if (!newRoom) {
-            printf("Failed to create room.\n");
-            return NULL;
-        }
-
-        if (head == NULL){
-            head = newRoom; //sets first newroom as head
-        } else {
-            current->east = newRoom;
-            newRoom->west = current;
-        }
-        current = newRoom; //move to newroom in the dungeon
+    //make a grid of rooms and allocate memory for it
+    ROOM **grid = malloc(dungeonSize * dungeonSize * sizeof(ROOM *));
+    if (!grid) {
+        printf("Failed to allocate memory for grid.\n");
+        return NULL;
     }
+
+
+    // ROOM *head = NULL; //ptr to start of room
+    // ROOM *current = NULL; //ptr to current room
+
+    // for(int i = 0; i < dungeonSize; i++) {
+    //     //select random room from room array
+    //     int randomRoomIndex = rand() % roomCount;
+    //     ROOM *newRoom = roomCreate(&rooms[randomRoomIndex]);//creates new room copy
+
+    //     //error handling
+    //     if (!newRoom) {
+    //         printf("Failed to create room.\n");
+    //         return NULL;
+    //     }
+
+    //     if (head == NULL){
+    //         head = newRoom; //sets first newroom as head
+    //     } else {
+    //         current->east = newRoom;
+    //         newRoom->west = current;
+    //     }
+    //     current = newRoom; //move to newroom in the dungeon
+    // }
+    ROOM *head = grid[0];
     return head; //return to start
 }
 
@@ -88,6 +97,26 @@ int main(int argc, char *argv[]){
         free(rooms);
         return 1;
     }
+
+    ROOM *currentRoom = dungeon;
+    while(1){
+        printf("\nCurrent Room Code: %s, Room Name: %s\n", currentRoom->code, currentRoom->name);
+        printf("Description: %s\n", currentRoom->description);
+        printf("Exits: ");
+
+        if (currentRoom->north) printf("North ");
+        if (currentRoom->east) printf("East ");
+        if (currentRoom->south) printf("South ");
+        if (currentRoom->west) printf("West ");
+        printf("\n");
+
+        printf("What would you like to do? <n/e/s/w> or quit :");
+        if (fgets(input, sizeof(input), stdin) == NULL){
+            printf("Not today pal.\n");
+            break;
+        }
+    }
+
     //print dungeon
     printDungeon(dungeon);
     //delete dungeon
