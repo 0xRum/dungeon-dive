@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include "roomManip.h"
 #include "stringManip.h"
@@ -58,7 +59,7 @@ void printDungeon(ROOM *dungeon) {
     }
 }
 
-void deleteDungeon(ROOM *dungeon) {
+void deleteDungeon(ROOM *dungeon, int dungeonSize) {
     ROOM *current = dungeon;
     while (current != NULL) {
         ROOM *next = current->east; //store the next room
@@ -113,14 +114,71 @@ int main(int argc, char *argv[]){
         printf("What would you like to do? <n/e/s/w> or quit :");
         if (fgets(input, sizeof(input), stdin) == NULL){
             printf("Not today pal.\n");
+            continue;
+        }
+        str_trim(input);
+
+        switch(input[0]){
+            case 'N':
+            case 'n':
+            if (currentRoom->north) {
+                currentRoom = currentRoom->north;
+                printf("moving north my leige\n");
+            } else {
+                printf("You can't go that way.\n");
+            }
+            break;
+            
+            case 'E':
+            case 'e':
+            if (currentRoom->east) {
+                currentRoom = currentRoom->east;
+                printf("moving east my leige\n");
+            } else {
+                printf("You can't go that way.\n");
+            }
+            break;
+
+            case 'S':
+            case 's':
+            if (currentRoom->south) {
+                currentRoom = currentRoom->south;
+                printf("moving south my leige\n");
+            } else {
+                printf("You can't go that way.\n");
+            }
+            break;
+            
+            case 'W':
+            case 'w':
+            if (currentRoom->west) {
+                currentRoom = currentRoom->west;
+                printf("moving west my leige\n");
+            } else {
+                printf("You can't go that way.\n");
+            }
+            break;
+
+            case 'Q':
+            case 'q':
+            if(strcmp(input, "quit") == 0) {
+                printf("Goodbye!\n");
+                return 0; //exit the loop
+            } else {
+                printf("Invalid command. Please try again.\n");
+            }
+            break;
+
+            default:
+            printf("Invalid command. Please try again.\n");
             break;
         }
     }
 
     //print dungeon
-    printDungeon(dungeon);
+    // printDungeon(dungeon);
     //delete dungeon
-    deleteDungeon(dungeon);
+    deleteDungeon(dungeon, dungeonSize);
     //free rooms
     free(rooms);
     return 0;
