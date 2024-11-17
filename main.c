@@ -31,6 +31,9 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
             grid[i * dungeonSize + j] = roomCreate(&rooms[randomRoomIndex]);
             if (!grid[i * dungeonSize + j]) {
                 printf("Failed to create room.\n");
+                for (int k = 0; k < i * dungeonSize + j; k++){
+                    free(grid[k]);
+                }    
                 return NULL;
             }
         }
@@ -52,20 +55,26 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
     return head; //return to start
 }
 
-void printDungeon(ROOM *dungeon) {
-    ROOM *current = dungeon;
-    while (current != NULL) {
-        printf("Room Code: %s, Room Name: %s\n", current->code, current->name);
-        current = current->east; //move to next room, east
-    }
-}
+// void printDungeon(ROOM *dungeon) {
+//     ROOM *current = dungeon;
+//     while (current != NULL) {
+//         printf("Room Code: %s, Room Name: %s\n", current->code, current->name);
+//         current = current->east; //move to next room, east
+//     }
+// }
 
-void deleteDungeon(ROOM *dungeon, int dungeonSize) {
+//create a void method to delete the dungeon to iterate over the 2d grid and free all rooms
+
+void deleteDungeon(ROOM *dungeon) {
     ROOM *current = dungeon;
+    ROOM *temp;
     while (current != NULL) {
-        ROOM *next = current->east; //store the next room
-        free(current); //free current
-        current = next; //move to the next room
+        // ROOM *next = current->east; //store the next room
+        // free(current); //free current
+        // current = next; //move to the next room
+        temp = current;
+        current = current->east;
+        free(temp);
     }
 }
 
@@ -104,7 +113,8 @@ int main(int argc, char *argv[]){
     while(1){
         printf("\nCurrent Room Code: %s, Room Name: %s\n", currentRoom->code, currentRoom->name);
         printf("Description: %s\n", currentRoom->description);
-        printf("Rooms to the: ");
+        printf("\n");
+        printf("Available rooms to exit: ");
 
         if (currentRoom->north) printf("North ");
         if (currentRoom->east) printf("East ");
@@ -122,57 +132,62 @@ int main(int argc, char *argv[]){
         switch(input[0]){
             case 'N':
             case 'n':
-            if (currentRoom->north) {
+                if (currentRoom->north) {
                 currentRoom = currentRoom->north;
-                printf("\n");
-                printf("Moving north my leige...\n");
-            } else {
-                printf("You can't go that way.\n");
-            }
-            break;
+                    printf("\n");
+                    printf("Moving north my leige...\n");
+                } else {printf("\n");
+                    printf("You walk into a wall and break your nose.\n");
+                }
+                break;
             
             case 'E':
             case 'e':
-            if (currentRoom->east) {
+                if (currentRoom->east) {
                 currentRoom = currentRoom->east;
-                printf("\n");
-                printf("Moving east my leige...\n");
-            } else {
-                printf("You can't go that way.\n");
-            }
-            break;
+                    printf("\n");
+                    printf("Moving east my leige...\n");
+                } else {
+                    printf("\n");
+                    printf("East? I thought you said weest. Theres a wall there.\n");
+                }
+                break;
 
             case 'S':
             case 's':
-            if (currentRoom->south) {
+                if (currentRoom->south) {
                 currentRoom = currentRoom->south;
-                printf("\n");
-                printf("Moving south my leige...\n");
-            } else {
-                printf("You can't go that way.\n");
-            }
-            break;
+                    printf("\n");
+                    printf("Moving south my leige...\n");
+                } else {
+                    printf("\n");
+                    printf("If only you had a saw tog et through this wall. Try again.\n");
+                }
+                break;
             
             case 'W':
             case 'w':
-            if (currentRoom->west) {
+                if (currentRoom->west) {
                 currentRoom = currentRoom->west;
-                printf("\n");
-                printf("Moving west my leige...\n");
-            } else {
-                printf("You can't go that way.\n");
-            }
-            break;
+                    printf("\n");
+                    printf("Moving west my leige...\n");
+                } else {
+                    printf("\n");
+                    printf("It's dark. You walk into a wall and break your toe.\n");
+                }
+                break;
 
             case 'Q':
             case 'q':
-            if(strcmp(input, "quit") == 0) {
-                printf("Goodbye!\n");
-                return 0; //exit the loop
-            } else {
-                printf("Invalid command. Please try again.\n");
-            }
-            break;
+                if(strcmp(input, "quit") == 0) {
+                    printf("Goodbye!\n");
+                    deleteDungeon(dungeon);
+                    free(rooms);
+                    return 0; //exit the loop
+                } else {
+                    printf("Invalid command. Please try again.\n");
+                }
+                break;
 
             default:
             printf("Invalid command. Please try again.\n");
@@ -183,7 +198,7 @@ int main(int argc, char *argv[]){
     //print dungeon
     // printDungeon(dungeon);
     //delete dungeon
-    deleteDungeon(dungeon, dungeonSize);
+    deleteDungeon(dungeon);
     //free rooms
     free(rooms);
     return 0;
