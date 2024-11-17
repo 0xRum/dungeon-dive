@@ -11,10 +11,20 @@
 #include "roomManip.h"
 #include "stringManip.h"
 
+
+//roomCreate initializes all pointers
 ROOM *roomCreate(ROOM *room){
-    ROOM *copy = malloc(sizeof(ROOM)); //allocate memory for enw room
-    if (!copy) return NULL;
-    *copy = *room; //copy room contents
+    ROOM *copy = malloc(sizeof(ROOM)); //allocate memory for new room
+
+    if (copy) {
+        strcpy(copy->code, room->code);
+        strcpy(copy->name, room->name);
+        strcpy(copy->description, room->description);
+        copy->north = NULL;
+        copy->east = NULL;
+        copy->south = NULL;
+        copy->west = NULL;
+    }
     return copy; //return new room copy
 }
 
