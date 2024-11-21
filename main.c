@@ -112,7 +112,8 @@ int main(int argc, char *argv[]){
     }
     
     //get dungeon size from user
-    printf("Enter dungeon size: ");
+    printf("\033[5;36mEnter dungeon size: \033[0;0m");
+    // printf("\u2592\n");
     char input[10];
     if(fgets(input, sizeof(input), stdin) == NULL) {
         printf("Not today pal.\n");
@@ -162,8 +163,13 @@ int main(int argc, char *argv[]){
                 if (currentRoom->north) {
                 currentRoom = currentRoom->north;
                     printf("\n");
+                    printf("\n");
+                    printf("\n");
                     printf("Moving north my leige...\n");
-                } else {printf("\n");
+                } else {
+                    printf("\n");
+                    printf("\n");
+                    printf("\n");
                     printf("You walk into a wall and break your nose.\n");
                 }
                 break;
@@ -173,8 +179,12 @@ int main(int argc, char *argv[]){
                 if (currentRoom->east) {
                 currentRoom = currentRoom->east;
                     printf("\n");
+                    printf("\n");
+                    printf("\n");
                     printf("Moving east my leige...\n");
                 } else {
+                    printf("\n");
+                    printf("\n");
                     printf("\n");
                     printf("East? I thought you said weest. Theres a wall there.\n");
                 }
@@ -185,8 +195,12 @@ int main(int argc, char *argv[]){
                 if (currentRoom->south) {
                 currentRoom = currentRoom->south;
                     printf("\n");
+                    printf("\n");
+                    printf("\n");
                     printf("Moving south my leige...\n");
                 } else {
+                    printf("\n");
+                    printf("\n");
                     printf("\n");
                     printf("If only you had a saw to get through this wall. Try again.\n");
                 }
@@ -197,8 +211,12 @@ int main(int argc, char *argv[]){
                 if (currentRoom->west) {
                 currentRoom = currentRoom->west;
                     printf("\n");
+                    printf("\n");
+                    printf("\n");
                     printf("Moving west my leige...\n");
                 } else {
+                    printf("\n");
+                    printf("\n");
                     printf("\n");
                     printf("It's dark. You walk into a wall and break your toe.\n");
                 }
@@ -210,6 +228,7 @@ int main(int argc, char *argv[]){
                 strcmp(input, "Q") == 0 ||
                 strcmp(input, "q") == 0) {
                     printf("Goodbye!\n");
+                    printf("\n");
                     deleteDungeon(dungeon);
                     free(rooms);
                     return 0; //exit the loop
