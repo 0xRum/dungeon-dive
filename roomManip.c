@@ -58,6 +58,10 @@ ROOM *readRoomFile(const char *filename, int *roomCount){
             strcpy(rooms[roomIndex].code, str_trim(line + 10));
         } else if (strncmp(line, "Room Description:", 17) == 0) {
             strcpy(rooms[roomIndex].description, str_trim(line + 17));
+            while(fgets(line, sizeof(line), fp) && strcmp(str_trim(line), "") !=0){
+                strcat(rooms[roomIndex].description,"\n");
+                strcat(rooms[roomIndex].description, line);
+            }
             roomIndex++; // move to the next room after completing one entry
         }
     }
