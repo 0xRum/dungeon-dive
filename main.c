@@ -1,8 +1,4 @@
-//Where the program begins. takes roomList as a command line argument. holds the following functions
-//createDungeon: takes the pointer to the room array and picks random room in dungeon (create copy of the room then add to the linked list)Make dungeon a 2d linked list that is bi-directional
-//printDungeon:takes pointer to start of dungeon, loops through the linked list, prints off room code name in small format
-//deleteDungeon:takes pointer to start of dungeon and frees memory allocated for entire dungeon
-//main: creates room array from the file, asks user for size of dungeon to be created, creates dungeon that size, prints dungeon, deletes dungeon.
+//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,16 +15,24 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
 
     //make a grid of rooms and allocate memory for it
     ROOM **grid = malloc(dungeonSize * dungeonSize * sizeof(ROOM *));
+    //handle if failed
     if (!grid) {
         printf("Failed to allocate memory for grid.\n");
         return NULL;
     }
 
     //create rooms and populate grid
+    //iterates over each row of the dungeon grid
+    //then iterates over each column of the current row
     for (int i = 0; i < dungeonSize; i++) {
         for (int j = 0; j < dungeonSize; j++) {
+            //generates random number within the range of available rooms 
             int randomRoomIndex = rand() % roomCount;
-            grid[i * dungeonSize + j] = roomCreate(&rooms[randomRoomIndex]);
+            //creates a new ROOM structure based on a randomly selected room and returns a pointer to it 
+            grid[i * dungeonSize + j] = roomCreate(&rooms[randomRoomIndex]); 
+            
+            //check if room creation fails
+            //for loop goes through all previously created rooms and frees memory
             if (!grid[i * dungeonSize + j]) {
                 printf("Failed to create room.\n");
                 for (int k = 0; k < i * dungeonSize + j; k++){
@@ -42,39 +46,56 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
     //time to link the rooms
     for (int i = 0; i < dungeonSize; i++) {
         for (int j = 0; j < dungeonSize; j++) {
+            //current equals the room structure from previous for loops
             ROOM *current = grid[i * dungeonSize + j];
+
+
             if(i > 0) current->north = grid[(i - 1) * dungeonSize + j];
             if(i < dungeonSize - 1) current->south = grid[(i + 1) * dungeonSize + j];
             if(j > 0) current->west = grid[i * dungeonSize + (j - 1)];
             if(j < dungeonSize - 1) current->east = grid[i * dungeonSize + (j + 1)];
         }
     }
-
+    //point to the first room
     ROOM *head = grid[0];
+    //free the initial grid
     free(grid);
-    return head; //return to start
+    //return to start
+    return head;
 }
 
-// void printDungeon(ROOM *dungeon) {
-//     ROOM *current = dungeon;
-//     while (current != NULL) {
-//         printf("Room Code: %s, Room Name: %s\n", current->code, current->name);
-//         current = current->east; //move to next room, east
-//     }
-// }
+void printDungeon(ROOM *dungeon, int dungeonSize, ROOM *currentRoom) {
+    if (!dungeon) return;
 
-//create a void method to delete the dungeon to iterate over the 2d grid and free all rooms
+    ROOM *currentRow = dungeon;
+    for (int i = 0; i < dungeonSize; i++) {
+        ROOM *currentCol = currentRow;
+        for (int j = 0; j < dungeonSize; j++) {
+            if (currentCol == currentRoom) {
+                printf("[*%s*]", currentCol->code);
+            } else {
+                printf("[ %s ]", currentCol->code);
+            }
+            currentCol = currentCol->east;
+        }
+        printf("\n");
+        currentRow = currentRow->south;
+    }
+}
 
+//go over dungeon and free memory row by row and column by column to ensure there are no memory leaks
 void deleteDungeon(ROOM *dungeon) {
-    ROOM *current = dungeon;
-    ROOM *temp;
-    while (current != NULL) {
-        // ROOM *next = current->east; //store the next room
-        // free(current); //free current
-        // current = next; //move to the next room
-        temp = current;
-        current = current->east;
-        free(temp);
+    if(!dungeon) return;
+    ROOM *currentRow = dungeon;
+    while(currentRow){
+        ROOM *currentCol = currentRow;
+        ROOM *nextRow = currentRow->south;
+        while(currentCol){
+            ROOM *nextCol = currentCol->east;
+            free(currentCol);
+            currentCol = nextCol;
+        }
+        currentRow = nextRow;
     }
 }
 
@@ -110,12 +131,17 @@ int main(int argc, char *argv[]){
     }
 
     ROOM *currentRoom = dungeon;
+    //loop to play game
     while(1){
+        printf("\n");
+
+        printDungeon(dungeon, dungeonSize, currentRoom);
         printf("\nCurrent Room Code: %s, Room Name: %s\n", currentRoom->code, currentRoom->name);
+
         printf("Description: %s\n", currentRoom->description);
         printf("\n");
-        printf("Available rooms to exit: ");
 
+        printf("Available rooms to exit: ");
         if (currentRoom->north) printf("North ");
         if (currentRoom->east) printf("East ");
         if (currentRoom->south) printf("South ");
@@ -129,6 +155,7 @@ int main(int argc, char *argv[]){
         }
         str_trim(input);
 
+        //add case statements for user input direction
         switch(input[0]){
             case 'N':
             case 'n':
@@ -161,7 +188,7 @@ int main(int argc, char *argv[]){
                     printf("Moving south my leige...\n");
                 } else {
                     printf("\n");
-                    printf("If only you had a saw tog et through this wall. Try again.\n");
+                    printf("If only you had a saw to get through this wall. Try again.\n");
                 }
                 break;
             
@@ -179,7 +206,9 @@ int main(int argc, char *argv[]){
 
             case 'Q':
             case 'q':
-                if(strcmp(input, "quit") == 0) {
+                if(strcmp(input, "quit") == 0 ||
+                strcmp(input, "Q") == 0 ||
+                strcmp(input, "q") == 0) {
                     printf("Goodbye!\n");
                     deleteDungeon(dungeon);
                     free(rooms);
@@ -195,8 +224,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    //print dungeon
-    // printDungeon(dungeon);
+    //clean up and exit
     //delete dungeon
     deleteDungeon(dungeon);
     //free rooms
