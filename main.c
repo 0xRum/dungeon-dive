@@ -42,15 +42,21 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
     }
 
     //time to link the rooms
+    //outer loop goes through row
     for (int i = 0; i < dungeonSize; i++) {
         for (int j = 0; j < dungeonSize; j++) {
             //current equals the room structure from previous for loops
+            //2d grid accessed by i*dungeonSize+j
             ROOM *current = grid[i * dungeonSize + j];
 
-
+            //links neighbors
+            //if room above exists
             if(i > 0) current->north = grid[(i - 1) * dungeonSize + j];
+            //if room below exists
             if(i < dungeonSize - 1) current->south = grid[(i + 1) * dungeonSize + j];
+            //if room to the left exists
             if(j > 0) current->west = grid[i * dungeonSize + (j - 1)];
+            //if room to the right exists
             if(j < dungeonSize - 1) current->east = grid[i * dungeonSize + (j + 1)];
         }
     }
