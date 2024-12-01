@@ -166,14 +166,10 @@ int main(int argc, char *argv[]){
             case 'n':
                 if (currentRoom->north) {
                 currentRoom = currentRoom->north;
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("Moving north my leige...\n");
                 } else {
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("You walk into a wall and break your nose.\n");
                 }
                 break;
@@ -182,14 +178,10 @@ int main(int argc, char *argv[]){
             case 'e':
                 if (currentRoom->east) {
                 currentRoom = currentRoom->east;
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("Moving east my leige...\n");
                 } else {
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("East? I thought you said weest. Theres a wall there.\n");
                 }
                 break;
@@ -198,14 +190,10 @@ int main(int argc, char *argv[]){
             case 's':
                 if (currentRoom->south) {
                 currentRoom = currentRoom->south;
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("Moving south my leige...\n");
                 } else {
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("If only you had a saw to get through this wall. Try again.\n");
                 }
                 break;
@@ -214,14 +202,10 @@ int main(int argc, char *argv[]){
             case 'w':
                 if (currentRoom->west) {
                 currentRoom = currentRoom->west;
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("Moving west my leige...\n");
                 } else {
-                    printf("\n");
-                    printf("\n");
-                    printf("\n");
+                    printf("\n\n\n");
                     printf("It's dark. You walk into a wall and break your toe.\n");
                 }
                 break;
