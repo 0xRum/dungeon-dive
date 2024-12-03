@@ -38,6 +38,7 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
                 }    
                 return NULL;
             }
+            grid[i * dungeonSize + j]->visited = 0;
         }
     }
 
@@ -77,8 +78,11 @@ void printDungeon(ROOM *dungeon, int dungeonSize, ROOM *currentRoom) {
         for (int j = 0; j < dungeonSize; j++) {
             if (currentCol == currentRoom) {
                 printf("[*%s*]", currentCol->code);
-            } else {
-                printf("[ %s ]", currentCol->code);
+                currentCol->visited = 1;
+            } else if (currentCol->visited) {
+                printf("[*XX*]");
+            } else{
+                printf("[    ]");
             }
             currentCol = currentCol->east;
         }
@@ -171,7 +175,8 @@ int main(int argc, char *argv[]){
             case 'N':
             case 'n':
                 if (currentRoom->north) {
-                currentRoom = currentRoom->north;
+                    currentRoom->north->visited = 1;
+                    currentRoom = currentRoom->north;
                     printf("\n\n\n");
                     printf("Moving north my leige...\n");
                 } else {
@@ -183,7 +188,8 @@ int main(int argc, char *argv[]){
             case 'E':
             case 'e':
                 if (currentRoom->east) {
-                currentRoom = currentRoom->east;
+                    currentRoom->east->visited = 1;
+                    currentRoom = currentRoom->east;
                     printf("\n\n\n");
                     printf("Moving east my leige...\n");
                 } else {
@@ -195,7 +201,8 @@ int main(int argc, char *argv[]){
             case 'S':
             case 's':
                 if (currentRoom->south) {
-                currentRoom = currentRoom->south;
+                    currentRoom->south->visited = 1;
+                    currentRoom = currentRoom->south;
                     printf("\n\n\n");
                     printf("Moving south my leige...\n");
                 } else {
@@ -207,7 +214,8 @@ int main(int argc, char *argv[]){
             case 'W':
             case 'w':
                 if (currentRoom->west) {
-                currentRoom = currentRoom->west;
+                    currentRoom->west->visited = 1;
+                    currentRoom = currentRoom->west;
                     printf("\n\n\n");
                     printf("Moving west my leige...\n");
                 } else {
