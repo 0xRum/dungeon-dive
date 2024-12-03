@@ -9,6 +9,7 @@ struct ROOM{
     char code[10];
     char name[256];
     char description[1024];
+    char riddle[256];
     ROOM *north, *east, *south, *west;
 };
 

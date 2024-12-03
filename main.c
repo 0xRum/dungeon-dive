@@ -128,6 +128,12 @@ int main(int argc, char *argv[]){
     //convert input to integer and create dungeon
     int dungeonSize = atoi(input);
     ROOM *dungeon = createDungeon(rooms,roomCount, dungeonSize);
+    // Ensure dungeonSize is within limits
+    if (dungeonSize < 1 || dungeonSize > 10) {
+        printf("Dungeon size must be between 1 and 10.\n");
+        free(rooms);
+        return 1;
+    }
     //handle errors
     if (!dungeon) {
         printf("Failed to create dungeon.\n");
