@@ -118,7 +118,17 @@ int main(int argc, char *argv[]){
         printf("Failed to load rooms.\n");
         return 1;
     }
-    
+    // get the users name 
+        // get the users name 
+    printf("\033[5;36mEnter your name: \033[0;0m");
+    char username[50];
+    if(fgets(username, sizeof(username), stdin) == NULL) {
+        printf("Not today pal.\n");
+        free(rooms);
+        return 1;
+    };
+
+
     //get dungeon size from user
     printf("\033[5;36mEnter dungeon size: \033[0;0m");
     // printf("\u2592\n");
