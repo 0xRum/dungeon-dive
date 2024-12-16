@@ -4,6 +4,7 @@
 #include <time.h>
 #include "roomManip.h"
 #include "stringManip.h"
+#include "monsterManip.h"
 
 ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
     if (dungeonSize <= 0 || roomCount <= 0)
@@ -22,6 +23,7 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
     const char *lootItems[] = {"Gold", "Potion", "Sword", "Shield", "Gems", "Steel Armor", "Silver", "Ancient Map", "Torch", "Dragon Scale", "Lockpick Set", "Cursed Ring"};
     //calc how many there are
     int lootCount = sizeof(lootItems) / sizeof(lootItems[0]);
+    // printf("lootCount = %d\n", lootCount);
 
     //create rooms and populate grid
     //iterates over each row of the dungeon grid
@@ -98,11 +100,11 @@ void printDungeon(ROOM *dungeon, int dungeonSize, ROOM *currentRoom) {
                 printf("[    ]");
             }
 
-            //////////////////////////////////////////////////////
+            // ////////////////////////////////////////////////////
             // if (currentCol->hasLoot) {
             //     printf("[%s]", currentCol->loot);
             // }
-            /////////////////////////////////////////////////////
+            // ///////////////////////////////////////////////////
             currentCol = currentCol->east;
         }
         printf("\n");
@@ -127,8 +129,8 @@ void deleteDungeon(ROOM *dungeon) {
 }
 
 int main(int argc, char *argv[]){
-    if (argc != 2) {
-        printf("Please use with: %s <nameofroomlist.txt>\n", argv[0]);
+    if (argc != 3) {
+        printf("Please use with: %s <nameofroomlist.txt> <monsters.txt>\n", argv[0]);
         return 1;
     }
     int roomCount;
@@ -142,12 +144,23 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
+
+    int monsterCount;
+    MONSTER *monsters  = monsterRoomFile(argv[2], &monsterCount);
+    if (!monsters) {
+        printf("Failed to load monsters.\n");
+        free(rooms);
+        free(monsters);
+        return 1;
+    }
+
     // get the users name 
     printf("\033[5;36mEnter your name: \033[0;0m");
     char username[50];
     if(fgets(username, sizeof(username), stdin) == NULL) {
         printf("Not today pal.\n");
         free(rooms);
+        free(monsters);
         return 1;
     };
 
@@ -159,6 +172,7 @@ int main(int argc, char *argv[]){
     if(fgets(input, sizeof(input), stdin) == NULL) {
         printf("Not today pal.\n");
         free(rooms);
+        free(monsters);
         return 1;
     };
 
@@ -169,12 +183,14 @@ int main(int argc, char *argv[]){
     if (dungeonSize < 1 || dungeonSize > 10) {
         printf("Dungeon size must be between 1 and 10.\n");
         free(rooms);
+        free(monsters);
         return 1;
     }
     //handle errors
     if (!dungeon) {
         printf("Failed to create dungeon.\n");
         free(rooms);
+        free(monsters);
         return 1;
     }
 
@@ -278,6 +294,7 @@ int main(int argc, char *argv[]){
                     printf("Goodbye!\n");
                     printf("\n");
                     deleteDungeon(dungeon);
+                    free(monsters);
                     free(rooms);
                     return 0; //exit the loop
                 } else {
@@ -296,5 +313,6 @@ int main(int argc, char *argv[]){
     deleteDungeon(dungeon);
     //free rooms
     free(rooms);
+    free(monsters);
     return 0;
 }
