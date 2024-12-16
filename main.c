@@ -18,6 +18,10 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
         printf("Failed to allocate memory for grid.\n");
         return NULL;
     }
+    // list of possible loot items
+    const char *lootItems[] = {"Gold", "Potion", "Sword", "Shield", "Gems", "Steel Armor", "Silver", "Ancient Map", "Torch", "Dragon Scale", "Lockpick Set", "Cursed Ring"};
+    //calc how many there are
+    int lootCount = sizeof(lootItems) / sizeof(lootItems[0]);
 
     //create rooms and populate grid
     //iterates over each row of the dungeon grid
@@ -39,6 +43,15 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize) {
                 return NULL;
             }
             grid[i * dungeonSize + j]->visited = 0;
+
+            //randomly generates if room should have loot
+            if (rand() % 9 == 0) { // 1 in 9 percent chance
+                int lootIndex = rand() % lootCount;
+                strcpy(grid[i * dungeonSize + j]->loot, lootItems[lootIndex]);
+                grid[i * dungeonSize + j]->hasLoot = 1;
+            } else {
+                grid[i * dungeonSize + j]->hasLoot = 0;
+            }
         }
     }
 
@@ -84,6 +97,12 @@ void printDungeon(ROOM *dungeon, int dungeonSize, ROOM *currentRoom) {
             } else{
                 printf("[    ]");
             }
+
+            //////////////////////////////////////////////////////
+            // if (currentCol->hasLoot) {
+            //     printf("[%s]", currentCol->loot);
+            // }
+            /////////////////////////////////////////////////////
             currentCol = currentCol->east;
         }
         printf("\n");
@@ -113,13 +132,17 @@ int main(int argc, char *argv[]){
         return 1;
     }
     int roomCount;
+    //array to store items
+    char inventory[10][50]; //max of 10 items
+    //initialize count to zero
+    int inventoryCount = 0;
     ROOM *rooms = readRoomFile(argv[1], &roomCount);
     if (!rooms) {
         printf("Failed to load rooms.\n");
         return 1;
     }
+
     // get the users name 
-        // get the users name 
     printf("\033[5;36mEnter your name: \033[0;0m");
     char username[50];
     if(fgets(username, sizeof(username), stdin) == NULL) {
@@ -161,12 +184,25 @@ int main(int argc, char *argv[]){
         printf("\n");
 
         printDungeon(dungeon, dungeonSize, currentRoom);
-        printf("\nCurrent Room Code: %s, Room Name: %s\n", currentRoom->code, currentRoom->name);
+        if (currentRoom->hasLoot) {
+            printf("\033[33m\nCongratulations, you found some treasure! %s!\n", currentRoom->loot);
 
-        printf("Description: %s\n", currentRoom->description);
+            currentRoom->hasLoot = 0;
+            if (inventoryCount < 10){
+                strcpy(inventory[inventoryCount++], currentRoom->loot);
+                printf("%s has been added to the inventory.\n\033[0m", currentRoom->loot);
+            } else {
+                printf("Inventory is full. You can't pick up another item %s.\n", currentRoom->loot);
+            }
+            strcpy(currentRoom->loot, "");
+        }
+        printf("\033[32m\nCurrent Room Code:\033[0m %s, \033[32mRoom Name:\033[0m %s\n", currentRoom->code, currentRoom->name);
+
+        printf("\033[32mDescription:\033[0m %s\n", currentRoom->description);
         printf("\n");
 
-        printf("Available rooms to exit: ");
+
+        printf("\033[32mAvailable rooms to exit:\033[0m ");
         if (currentRoom->north) printf("North ");
         if (currentRoom->east) printf("East ");
         if (currentRoom->south) printf("South ");
