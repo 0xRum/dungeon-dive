@@ -14,7 +14,9 @@ This is a simple dungeon crawler game made with C programming language where the
 
 -Then the player can move through the dungeon by using:`n`,`e`,`s`,`w`.
 
--The file is written to '`userData.txt`' when the user enters "`q`" or "`quit`" the `game summary` displays. This provides a basic level of interaction for the user.
+-The file is written to '`userData.txt`' when the user enters "`q`" or "`quit`" the `game summary` displays.
+
+-This all provides a basic level of interaction for the user.
 
 ## Run Game:
 
@@ -24,5 +26,7 @@ To run the game:
 
 Then run:
 `./main dungeonRoomList_large.txt monsters.txt`
+
+The game will then start to run, enter your name and the size of the dungeon you want to play. (between 5 & 15 is the min and max size of the game).
 
 To clean up the files after use `make clean`
