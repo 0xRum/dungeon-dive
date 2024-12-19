@@ -1,6 +1,7 @@
 # dungeon-dive
 
 Overview:This is a simple dungeon crawler game made with C programming language where the player can navigate through a randomly generated dungeon after entering their username and dungeon size.
+
 Features:
 -They can collect loot and encounter monsters.
 -After entering a dungeon size, it constructs a 2d grid of rooms and assigns random loot to the rooms with a 14.28% chance of having loot per room. The rooms are also linked directionally; North, south, west, and east.
