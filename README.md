@@ -18,6 +18,9 @@ This is a simple dungeon crawler game made with C programming language where the
 
 -This all provides a basic level of interaction for the user.
 
+**_Something not explicitly taught_**:
+Text colors. Adding colors to ingame text to break apart the walls of white text. Shows game mechanics that are going on.
+
 ## Run Game:
 
 To run the game:
@@ -30,3 +33,5 @@ Then run:
 The game will then start to run, enter your name and the size of the dungeon you want to play. (between 5 & 15 is the min and max size of the game).
 
 To clean up the files after use `make clean`
+
+Happy Gaming!
