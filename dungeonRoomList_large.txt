@@ -1,7 +1,6 @@
 Room Name: Forgotten Shrine
 Room Code: FS
 Room Description: A musty air fills this small chamber. In the center stands a crumbling altar, long abandoned by the gods it once served. Faint, flickering light dances from faded stained glass windows above. Strange symbols carved into the walls pulse with dim, forgotten magic, while the silence is broken only by the distant drip of water.
-riddle:1
 
 Room Name: The Serpent's Hall
 Room Code: SH
