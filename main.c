@@ -54,8 +54,8 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize)
             grid[i * dungeonSize + j]->visited = 0;
 
             // randomly generates if room should have loot
-            if (rand() % 9 == 0)
-            { // 1 in 9 percent chance. 11.11%
+            if (rand() % 7 == 0)
+            { // 1 in 9 percent chance. 14.28%
                 int lootIndex = rand() % lootCount;
                 strcpy(grid[i * dungeonSize + j]->loot, lootItems[lootIndex]);
                 grid[i * dungeonSize + j]->hasLoot = 1;
@@ -99,6 +99,40 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize)
     // return to start
     return head;
 }
+void writeUserData(const char *username, char inventory[][50], int inventoryCount)
+{
+    FILE *fp = fopen("userData.txt", "w");
+    if (!fp)
+    {
+        printf("Failed to open userData.txt\n");
+        return;
+    }
+    fprintf(fp, "User: %s\n", username);
+    fprintf(fp, "Inventory:\n");
+    for (int i = 0; i < inventoryCount; i++)
+    {
+        fprintf(fp, "- %s\n", inventory[i]);
+    }
+    fclose(fp);
+}
+
+void printUserData()
+{
+    FILE *fp = fopen("userData.txt", "r");
+    if (!fp)
+    {
+        printf("Failed to open userData.txt\n");
+        return;
+    }
+    char line[100];
+    printf("\n\033[32mGame Summary:\033[0m\n");
+    while (fgets(line, sizeof(line), fp))
+    {
+        printf("%s", line);
+    }
+    fclose(fp);
+}
+
 void printMonsters(MONSTER *monsters, int monsterCount)
 {
     printf("\nMonsters in the dungeon:\n");
@@ -143,7 +177,7 @@ void printMonstersInRoom(MONSTER *monsters, int monsterCount, const char *roomCo
         if (strcmp(monsters[i].roomCode, roomCode) == 0)
         {
             printf("\e[1;31mPrepare to get eaten!!!!!\033[0m\n");
-            sleep(2.5);
+            sleep(1.75);
             printf("%s\n", monsters[i].name);
             found = 1;
         }
@@ -254,6 +288,7 @@ int main(int argc, char *argv[])
         free(monsters);
         return 1;
     };
+    username[strcspn(username, "\n")] = 0;
 
     // get dungeon size from user
     printf("\033[5;36mEnter dungeon size: \033[0;0m");
@@ -271,9 +306,9 @@ int main(int argc, char *argv[])
     int dungeonSize = atoi(input);
     ROOM *dungeon = createDungeon(rooms, roomCount, dungeonSize);
     // Ensure dungeonSize is within limits
-    if (dungeonSize < 1 || dungeonSize > 10)
+    if (dungeonSize < 5 || dungeonSize > 15)
     {
-        printf("Dungeon size must be between 1 and 10.\n");
+        printf("Dungeon size must be between 5 and 15.\n");
         free(rooms);
         free(monsters);
         return 1;
@@ -410,7 +445,10 @@ int main(int argc, char *argv[])
                 strcmp(input, "Q") == 0 ||
                 strcmp(input, "q") == 0)
             {
-                printf("Goodbye!\n");
+                writeUserData(username, inventory, inventoryCount);
+                printf("\nUser data has been written to file.\n");
+                printUserData();
+                printf("\n\033[31mGoodbye!\033[0m\n");
                 printf("\n");
                 deleteDungeon(dungeon);
                 free(monsters);
