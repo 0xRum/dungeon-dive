@@ -446,7 +446,7 @@ int main(int argc, char *argv[])
                 strcmp(input, "q") == 0)
             {
                 writeUserData(username, inventory, inventoryCount);
-                printf("\nUser data has been written to file.\n");
+                // printf("\nUser data has been written to file.\n");
                 printUserData();
                 printf("\n\033[31mGoodbye!\033[0m\n");
                 printf("\n");
