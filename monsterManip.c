@@ -26,6 +26,7 @@ char *str_troll(char *str)
     return str;
 }
 
+// reads from monster room file and returns array of monster structures
 MONSTER *monsterRoomFile(const char *filename, int *monsterCount)
 {
     FILE *fp = fopen(filename, "r");
@@ -66,7 +67,7 @@ MONSTER *monsterRoomFile(const char *filename, int *monsterCount)
                 monsters = temp;
             }
 
-            // trim line for monster
+            // trim line for monster on empty line
             strcpy(monsters[monsterIndex].name, line);
 
             while (fgets(line, sizeof(line), fp) && strcmp(str_troll(line), "") != 0)

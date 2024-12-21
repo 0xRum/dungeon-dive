@@ -99,6 +99,8 @@ ROOM *createDungeon(ROOM *rooms, int roomCount, int dungeonSize)
     // return to start
     return head;
 }
+
+// write data collected from the user to the output file named 'userData.txt'
 void writeUserData(const char *username, char inventory[][50], int inventoryCount)
 {
     FILE *fp = fopen("userData.txt", "w");
@@ -107,15 +109,18 @@ void writeUserData(const char *username, char inventory[][50], int inventoryCoun
         printf("Failed to open userData.txt\n");
         return;
     }
+    // writes the user data for username, inventory, and inventoryCount
     fprintf(fp, "User: %s\n", username);
     fprintf(fp, "Inventory:\n");
     for (int i = 0; i < inventoryCount; i++)
     {
         fprintf(fp, "- %s\n", inventory[i]);
     }
+    fprintf(fp, "Item Count: %d\n", inventoryCount);
     fclose(fp);
 }
 
+// function to read from userdata and print after user quits
 void printUserData()
 {
     FILE *fp = fopen("userData.txt", "r");
@@ -133,15 +138,7 @@ void printUserData()
     fclose(fp);
 }
 
-void printMonsters(MONSTER *monsters, int monsterCount)
-{
-    printf("\nMonsters in the dungeon:\n");
-    for (int i = 0; i < monsterCount; i++)
-    {
-        printf("%s", monsters[i].name);
-    }
-}
-
+// function to place monsters in the dungeon according to random dungeon rows and columns.
 void placeMonstersInDungeon(ROOM *dungeon, int dungeonSize, MONSTER *monsters, int monsterCount)
 {
     srand(time(0));
@@ -160,17 +157,16 @@ void placeMonstersInDungeon(ROOM *dungeon, int dungeonSize, MONSTER *monsters, i
             if (room->east)
                 room = room->east;
         }
-
-        /////////////////////////////////////////////////
-        strcpy(monsters[i].roomCode, room->code);
-        // printf("Monster %s placed in room %s (%s)\n", monsters[i].name, room->code, room->name);
-        /////////////////////////////////////////////////
+        if (room)
+        {
+            strcpy(monsters[i].roomCode, room->code);
+        }
     }
 }
+
+// function to printmonsters if they exist, or if they dont exist
 void printMonstersInRoom(MONSTER *monsters, int monsterCount, const char *roomCode)
 {
-    // printf("\e[1;31mMonsters in this room:\033[0m\n");s
-
     int found = 0;
     for (int i = 0; i < monsterCount; i++)
     {
@@ -188,6 +184,7 @@ void printMonstersInRoom(MONSTER *monsters, int monsterCount, const char *roomCo
     }
 }
 
+// function to print the dungeon for the main game loop
 void printDungeon(ROOM *dungeon, int dungeonSize, ROOM *currentRoom)
 {
     if (!dungeon)
@@ -212,12 +209,6 @@ void printDungeon(ROOM *dungeon, int dungeonSize, ROOM *currentRoom)
             {
                 printf("[    ]");
             }
-
-            // ////////////////////////////////////////////////////
-            // if (currentCol->hasLoot) {
-            //     printf("[%s]", currentCol->loot);
-            // }
-            // ///////////////////////////////////////////////////
             currentCol = currentCol->east;
         }
         printf("\n");
@@ -274,10 +265,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    //////////////////////////////////////////
-    // printMonsters(monsters, monsterCount);
-    //////////////////////////////////////////
-
     // get the users name
     printf("\033[5;36mEnter your name: \033[0;0m");
     char username[50];
@@ -292,7 +279,6 @@ int main(int argc, char *argv[])
 
     // get dungeon size from user
     printf("\033[5;36mEnter dungeon size: \033[0;0m");
-    // printf("\u2592\n");
     char input[10];
     if (fgets(input, sizeof(input), stdin) == NULL)
     {
@@ -322,6 +308,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // add monsters to dungeon after creating
     placeMonstersInDungeon(dungeon, dungeonSize, monsters, monsterCount);
 
     ROOM *currentRoom = dungeon;
